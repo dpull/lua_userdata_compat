@@ -4,8 +4,8 @@
 #if LUA_VERSION_NUM < 504
 #define NUVALUE_KEY 0
 
-LUA_API void* lua_newuserdatauv(lua_State* L, size_t size, int nuvalue) {
-  void* u = lua_newuserdata(L, size);
+LUA_API void *lua_newuserdatauv(lua_State *L, size_t size, int nuvalue) {
+  void *u = lua_newuserdata(L, size);
   if (nuvalue == 0) {
     return u;
   }
@@ -19,7 +19,7 @@ LUA_API void* lua_newuserdatauv(lua_State* L, size_t size, int nuvalue) {
   return u;
 }
 
-static int getnuvalue(lua_State* L, int idx) {
+static int getnuvalue(lua_State *L, int idx) {
   lua_rawgeti(L, idx, NUVALUE_KEY);
   if (!lua_isnumber(L, -1)) {
     luaL_error(L, "Missing lua userdata compat nuvalue");
@@ -30,7 +30,7 @@ static int getnuvalue(lua_State* L, int idx) {
   return nuvalue;
 }
 
-LUA_API int lua_getiuservalue(lua_State* L, int idx, int n) {
+LUA_API int lua_getiuservalue(lua_State *L, int idx, int n) {
   assert(lua_type(L, idx) == LUA_TUSERDATA);
   if (lua_getuservalue(L, idx) != LUA_TTABLE) {
     luaL_error(L, "Missing lua userdata compat table");
@@ -49,7 +49,7 @@ LUA_API int lua_getiuservalue(lua_State* L, int idx, int n) {
   return t;
 }
 
-LUA_API int lua_setiuservalue(lua_State* L, int idx, int n) {
+LUA_API int lua_setiuservalue(lua_State *L, int idx, int n) {
   assert(lua_type(L, idx) == LUA_TUSERDATA);
   if (lua_getuservalue(L, idx) != LUA_TTABLE) {
     luaL_error(L, "Missing lua userdata compat table");
